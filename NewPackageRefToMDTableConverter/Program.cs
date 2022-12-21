@@ -10,4 +10,4 @@ var converter = new Converter(logger);
 inputService.SetPath();
 inputService.SetSeparate();
 
-converter.StartConverting(inputService.Path);
+converter.StartConverting(inputService.Path, inputService.Separate);

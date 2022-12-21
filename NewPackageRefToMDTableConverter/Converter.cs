@@ -15,7 +15,7 @@ namespace NewPackageRefToMDTableConverter
             _projectNames = new List<string>();
         }
 
-        public void StartConverting(string path)
+        public void StartConverting(string path, bool separate)
         {
             var referenceFiles = GetReferenceFiles(path);
             var filteredFiles = new List<List<string>>();
@@ -26,7 +26,7 @@ namespace NewPackageRefToMDTableConverter
             }
 
             var referencesList = ConvertToReferenceList(filteredFiles);
-            var tables = _table.CreateTables(referencesList);
+            var tables = _table.CreateTables(referencesList, separate);
             _table.PrintTables(tables, _projectNames);
         }
 
