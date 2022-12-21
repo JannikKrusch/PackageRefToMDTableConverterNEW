@@ -1,5 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using Microsoft.Extensions.Logging;
 using NewPackageRefToMDTableConverter;
 
 Console.WriteLine("Hello, World!");
@@ -11,5 +10,7 @@ var converter = new Converter(logger);
 inputService.SetUserInput();
 if(inputService.UserInput != "")
 {
+   // var assemblyName = AssemblyLoadContext.GetAssemblyName(inputService.UserInput);
+    //var assembly = Assembly.Load(assemblyName);
     converter.StartConverting(inputService.UserInput);
 }

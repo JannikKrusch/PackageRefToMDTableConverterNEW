@@ -102,13 +102,13 @@
             if (line.StartsWith("<PackageReference Include="))
             {
                 //package mit version
-                packageRef.Package = splitLine[1].Replace("Include=\"", "").Replace("\"", "");
+                packageRef.Name = splitLine[1].Replace("Include=\"", "").Replace("\"", "");
                 packageRef.Version = splitLine[2].Replace("Version=\"", "").Replace("\"", "");
             }
             else
             {
                 //project ohne version
-                packageRef.Package = splitLine[1].Replace("Include=\"", "").Replace("\"", "");
+                packageRef.Name = splitLine[1].Replace("Include=\"", "").Replace("\"", "");
                 packageRef.Version = "-";
             }
             return packageRef;

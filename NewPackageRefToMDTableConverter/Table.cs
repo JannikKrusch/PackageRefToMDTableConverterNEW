@@ -57,12 +57,12 @@ namespace NewPackageRefToMDTableConverter
 
         public string CreateRow(PackageRef packageRef, int lengthOfPackage, int lengthOfVersion)
         {
-            return $"| {packageRef.Package}{new string(' ', lengthOfPackage - packageRef.Package.Length)} | {packageRef.Version}{new string(' ', lengthOfVersion - packageRef.Version.Length)} |";
+            return $"| {packageRef.Name}{new string(' ', lengthOfPackage - packageRef.Name.Length)} | {packageRef.Version}{new string(' ', lengthOfVersion - packageRef.Version.Length)} |";
         }
 
         public int GetLongestPackageLength(List<PackageRef> packageRefs)
         {
-            return Math.Max(packageRefs.Max(x => x.Package.Length), "Package".Length);
+            return Math.Max(packageRefs.Max(x => x.Name.Length), "Package".Length);
         }
 
         public int GetLongestVersionLength(List<PackageRef> packageRefs)

@@ -8,7 +8,7 @@ namespace NewPackageRefToMDTableConverter
 {
     public class PackageRef
     {
-        public string Package { get; set; }
+        public string Name { get; set; }
         public string Version { get; set; }
     }
 }
