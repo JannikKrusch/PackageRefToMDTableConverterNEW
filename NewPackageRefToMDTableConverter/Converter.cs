@@ -30,7 +30,6 @@
 
         public List<List<string>> GetProjectPackageReferenceFiles(string path)
         {
-            //
             var projectsDirs = Directory.GetDirectories(path).ToList();
             var projectRefFiles = new List<List<string>>();
             var amountOfProjectsWithFile = 0;
