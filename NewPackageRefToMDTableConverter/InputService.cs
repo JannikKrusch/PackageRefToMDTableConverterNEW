@@ -4,11 +4,19 @@
     {
         public string Path { get; set; }
         public bool Separate { get; set; }
+        public bool Log { get; set; }
         private Logger _logger;
 
         public InputService(Logger logger)
         {
             _logger = logger;
+        }
+
+        public void SetUserInput()
+        {
+            SetPath();
+            Separate = GetTrueOrFalse("Separate package and project references into different tables [Y/N]? ");
+            Log = GetTrueOrFalse("Show log messages[Y/N]? ");
         }
 
         public void SetPath()
@@ -41,17 +49,17 @@
             }
         }
 
-        public void SetSeparate()
+        public bool GetTrueOrFalse(string inputMessage)
         {
             while (true)
             {
-                Console.Write("Separate package and project references into different tables [Y/N]? ");
+                Console.Write(inputMessage);
                 var input = Console.ReadLine();
 
                 if (!string.IsNullOrWhiteSpace(input) && (input.ToLower() == "y" || input.ToLower() == "n"))
                 {
-                    Separate = input.ToLower() == "y" ? true : false;
-                    return;
+                    //Separate = input.ToLower() == "y" ? true : false;
+                    return input.ToLower() == "y" ? true : false;
                 }
 
                 _logger.LogWarning($"Invalid input. Must be [Y/N]");

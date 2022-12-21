@@ -5,13 +5,15 @@ Console.WriteLine("Hello, World!");
 
 var logger = new Logger();
 var inputService = new InputService(logger);
-var converter = new Converter(logger);
 
-inputService.SetPath();
-inputService.SetSeparate();
+inputService.SetUserInput();
+logger.Log = inputService.Log;
+
+var converter = new Converter(logger);
 
 converter.StartConverting(inputService.Path, inputService.Separate);
 
 //todo
+//  * ask if user wants logs
 //  * create constant folder and create table header constants
 //  * refactor code
