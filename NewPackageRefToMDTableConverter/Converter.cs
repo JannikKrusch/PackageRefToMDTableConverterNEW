@@ -1,4 +1,6 @@
-﻿namespace NewPackageRefToMDTableConverter
+﻿using NewPackageRefToMDTableConverter.Models;
+
+namespace NewPackageRefToMDTableConverter
 {
     public class Converter
     {

@@ -1,4 +1,4 @@
-﻿using System.Text;
+﻿using NewPackageRefToMDTableConverter.Models;
 
 namespace NewPackageRefToMDTableConverter
 {
@@ -33,7 +33,7 @@ namespace NewPackageRefToMDTableConverter
             var lengthOfVersion = GetLongestVersionLength(references);
 
             table.Add(CreateHeader(lengthOfName, lengthOfVersion));
-            table.Add(CreatePartinLine(lengthOfName, lengthOfVersion));
+            table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
 
             foreach (var reference in references)
             {
@@ -48,7 +48,7 @@ namespace NewPackageRefToMDTableConverter
             return $"| Reference{new string(' ', lengthOfName - "Reference".Length)} | Version{new string(' ', lengthOfVersion - "Version".Length)} |";
         }
 
-        public string CreatePartinLine(int lengthOfName, int lengthOfVersion)
+        public string CreatePartingLine(int lengthOfName, int lengthOfVersion)
         {
             return $"| {new string('-', lengthOfName)} | {new string('-', lengthOfVersion)} |";
         }
@@ -87,9 +87,9 @@ namespace NewPackageRefToMDTableConverter
 
         public void PrintTable(List<string> table)
         {
-            foreach (var item in table)
+            foreach (var row in table)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(row);
             }
         }
     }

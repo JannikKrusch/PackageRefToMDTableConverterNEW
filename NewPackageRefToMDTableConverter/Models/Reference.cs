@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NewPackageRefToMDTableConverter
+namespace NewPackageRefToMDTableConverter.Models
 {
     public class Reference
     {
