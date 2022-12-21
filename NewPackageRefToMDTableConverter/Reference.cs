@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NewPackageRefToMDTableConverter
 {
-    public class PackageRef
+    public class Reference
     {
         public string Name { get; set; }
         public string Version { get; set; }
