@@ -11,3 +11,7 @@ inputService.SetPath();
 inputService.SetSeparate();
 
 converter.StartConverting(inputService.Path, inputService.Separate);
+
+//todo
+//  * create constant folder and create table header constants
+//  * refactor code

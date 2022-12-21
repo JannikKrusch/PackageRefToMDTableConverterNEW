@@ -29,14 +29,12 @@ namespace NewPackageRefToMDTableConverter
         public List<string> CreateTable(List<Reference> references, bool separate)
         {
             var table = new List<string>();
-            //var lengthOfName = GetLongestNameLength(references);
-            //var lengthOfVersion = GetLongestVersionLength(references);
 
             if (separate)
             {
                 //packages
                 var packageReferences = references.Where(reference => reference.Version != "").ToList();
-                var lengthOfName = GetLongestNameLength(packageReferences);
+                var lengthOfName = GetLongestNameLength(packageReferences, "Package");
                 var lengthOfVersion = GetLongestVersionLength(packageReferences);
 
                 table.Add(CreateHeader("Package", "Version", lengthOfName, lengthOfVersion));
@@ -53,7 +51,7 @@ namespace NewPackageRefToMDTableConverter
                 var projectReferences = references.Where(reference => reference.Version == "").ToList();
                 if (projectReferences.Any())
                 {
-                    lengthOfName = GetLongestNameLength(projectReferences);
+                    lengthOfName = GetLongestNameLength(projectReferences, "Project");
                     lengthOfVersion = GetLongestVersionLength(projectReferences);
 
                     table.Add(CreateHeader("Project", "Version", lengthOfName, lengthOfVersion));
@@ -67,7 +65,7 @@ namespace NewPackageRefToMDTableConverter
             }
             else
             {
-                var lengthOfName = GetLongestNameLength(references);
+                var lengthOfName = GetLongestNameLength(references, "Reference");
                 var lengthOfVersion = GetLongestVersionLength(references);
 
                 table.Add(CreateHeader("Reference", "Version", lengthOfName, lengthOfVersion));
@@ -97,9 +95,9 @@ namespace NewPackageRefToMDTableConverter
             return $"| {reference.Name}{new string(' ', lengthOfName - reference.Name.Length)} | {reference.Version}{new string(' ', lengthOfVersion - reference.Version.Length)} |";
         }
 
-        public int GetLongestNameLength(List<Reference> references)//todo string.length anpassen an sep ja/nein
+        public int GetLongestNameLength(List<Reference> references, string header)//todo string.length anpassen an sep ja/nein
         {
-            return Math.Max(references.Max(x => x.Name.Length), "Reference".Length);
+            return Math.Max(references.Max(x => x.Name.Length), header.Length);
         }
 
         public int GetLongestVersionLength(List<Reference> references)
