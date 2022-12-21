@@ -4,7 +4,7 @@
     {
         private Logger _logger;
         private Table _table;
-        public List<string> _projectNames;
+        private List<string> _projectNames;
 
         public Converter(Logger logger)
         {
