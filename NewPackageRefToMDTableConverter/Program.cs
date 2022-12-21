@@ -7,8 +7,8 @@ var logger = new Logger();
 var inputService = new InputService(logger);
 var converter = new Converter(logger);
 
-inputService.SetUserInput();
-if(inputService.UserInput != "")
+inputService.SetPath();
+if(inputService.Path != "")
 {
-    converter.StartConverting(inputService.UserInput);
+    converter.StartConverting(inputService.Path);
 }

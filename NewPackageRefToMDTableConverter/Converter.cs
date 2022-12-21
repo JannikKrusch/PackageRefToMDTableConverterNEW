@@ -25,7 +25,7 @@
 
             var referencesList = ConvertToReferenceList(filteredFiles);
             var tables = _table.CreateTables(referencesList);
-            _table.PrintTables(tables,_projectNames);
+            _table.PrintTables(tables, _projectNames);
         }
 
         public List<List<string>> GetReferenceFiles(string path)
@@ -43,7 +43,7 @@
                     amountOfProjectsWithFile++;
 
                     var splitDir = projectDir.Split("\\");
-                    _projectNames.Add(splitDir[splitDir.Length-1]);
+                    _projectNames.Add(splitDir[splitDir.Length - 1]);
                 }
                 else
                 {
@@ -80,7 +80,7 @@
             {
                 _logger.LogDebug("Creating PackageReference list");
                 var projectReferences = new List<Reference>();
-                
+
                 foreach (var line in project)
                 {
                     projectReferences.Add(ConvertToReference(line));
