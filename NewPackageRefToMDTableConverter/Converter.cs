@@ -1,4 +1,6 @@
-﻿namespace NewPackageRefToMDTableConverter
+﻿using NewPackageRefToMDTableConverter.Models;
+
+namespace NewPackageRefToMDTableConverter
 {
     public class Converter
     {
@@ -15,20 +17,20 @@
 
         public void StartConverting(string path)
         {
-            var projectRefFiles = GetProjectPackageReferenceFiles(path);
-            var filteredProjectFiles = new List<List<string>>();
+            var referenceFiles = GetReferenceFiles(path);
+            var filteredFiles = new List<List<string>>();
 
-            foreach (var projectRefFile in projectRefFiles)
+            foreach (var referenceFile in referenceFiles)
             {
-                filteredProjectFiles.Add(FilterProjectFile(projectRefFile));
+                filteredFiles.Add(FilterFile(referenceFile));
             }
 
-            var PackageRefs = ConvertToPackageRefList(filteredProjectFiles);
-            var tables = _table.CreateTables(PackageRefs);
-            _table.PrintTables(tables,_projectNames);
+            var referencesList = ConvertToReferenceList(filteredFiles);
+            var tables = _table.CreateTables(referencesList);
+            _table.PrintTables(tables, _projectNames);
         }
 
-        public List<List<string>> GetProjectPackageReferenceFiles(string path)
+        public List<List<string>> GetReferenceFiles(string path)
         {
             var projectsDirs = Directory.GetDirectories(path).ToList();
             var projectRefFiles = new List<List<string>>();
@@ -39,11 +41,11 @@
                 if (filePath != null)
                 {
                     projectRefFiles.Add(File.ReadAllLines(filePath).ToList());
-                    _logger.LogDebug($"Added project file to list {filePath}");
+                    _logger.LogDebug($"Added file to list {filePath}");
                     amountOfProjectsWithFile++;
 
                     var splitDir = projectDir.Split("\\");
-                    _projectNames.Add(splitDir[splitDir.Length-1]);
+                    _projectNames.Add(splitDir[splitDir.Length - 1]);
                 }
                 else
                 {
@@ -58,7 +60,7 @@
             return projectRefFiles;
         }
 
-        public List<string> FilterProjectFile(List<string> file)
+        public List<string> FilterFile(List<string> file)
         {
             var filteredLines = new List<string>();
             foreach (var line in file)
@@ -73,31 +75,30 @@
             return filteredLines;
         }
 
-        public List<List<PackageRef>> ConvertToPackageRefList(List<List<string>> filteredProjectFiles)
+        public List<List<Reference>> ConvertToReferenceList(List<List<string>> filteredProjectFiles)
         {
-            var packageRefList = new List<List<PackageRef>>();
+            var referencesList = new List<List<Reference>>();
             foreach (var project in filteredProjectFiles)
             {
                 _logger.LogDebug("Creating PackageReference list");
-                var projectPackageRefs = new List<PackageRef>();
-                
+                var projectReferences = new List<Reference>();
+
                 foreach (var line in project)
                 {
-                    projectPackageRefs.Add(ConvertToPackageRef(line));
+                    projectReferences.Add(ConvertToReference(line));
                 }
-                packageRefList.Add(projectPackageRefs);
+                referencesList.Add(projectReferences);
             }
 
-            return packageRefList;
+            return referencesList;
         }
 
-        public PackageRef ConvertToPackageRef(string line)
+        public Reference ConvertToReference(string line)
         {
             _logger.LogDebug("Creating PackageReference item");
 
-            var packageRef = new PackageRef();
+            var packageRef = new Reference();
             var splitLine = line.Split(" ");
-            //packageRef.Project = _projectNames[index];
 
             if (line.StartsWith("<PackageReference Include="))
             {
@@ -109,7 +110,7 @@
             {
                 //project ohne version
                 packageRef.Name = splitLine[1].Replace("Include=\"", "").Replace("\"", "");
-                packageRef.Version = "-";
+                packageRef.Version = "";
             }
             return packageRef;
         }

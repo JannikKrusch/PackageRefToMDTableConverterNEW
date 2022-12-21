@@ -2,7 +2,6 @@
 {
     public class Logger
     {
-
         public void LogInfo(string message)
         {
             var color = Console.ForegroundColor;
@@ -18,6 +17,7 @@
             Console.WriteLine($"DEBUG:\t{message}");
             Console.ForegroundColor = color;
         }
+
         public void LogWarning(string message)
         {
             var color = Console.ForegroundColor;

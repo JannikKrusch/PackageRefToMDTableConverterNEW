@@ -1,26 +1,24 @@
-﻿using System.Text;
+﻿using NewPackageRefToMDTableConverter.Models;
 
 namespace NewPackageRefToMDTableConverter
 {
     public class Table
     {
         private Logger _logger;
-        private StringBuilder _sb;
 
         public Table(Logger logger)
         {
             _logger = logger;
-            _sb = new StringBuilder();
         }
 
-        public List<List<string>> CreateTables(List<List<PackageRef>> packageRefs)
+        public List<List<string>> CreateTables(List<List<Reference>> referencesList)
         {
             _logger.LogDebug("Started creating tables");
 
             var tables = new List<List<string>>();
-            foreach (var packageRef in packageRefs)
+            foreach (var references in referencesList)
             {
-                tables.Add(CreateTable(packageRef));
+                tables.Add(CreateTable(references));
             }
 
             _logger.LogDebug("Finished creating tables");
@@ -28,46 +26,46 @@ namespace NewPackageRefToMDTableConverter
             return tables;
         }
 
-        public List<string> CreateTable(List<PackageRef> packageRefs)
+        public List<string> CreateTable(List<Reference> references)
         {
             var table = new List<string>();
-            var lengthofPackage = GetLongestPackageLength(packageRefs);
-            var lengthOfVersion = GetLongestVersionLength(packageRefs);
+            var lengthOfName = GetLongestNameLength(references);
+            var lengthOfVersion = GetLongestVersionLength(references);
 
-            table.Add(CreateHeader(lengthofPackage, lengthOfVersion));
-            table.Add(CreatePartinLine(lengthofPackage, lengthOfVersion));
+            table.Add(CreateHeader(lengthOfName, lengthOfVersion));
+            table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
 
-            foreach (var packageRef in packageRefs)
+            foreach (var reference in references)
             {
-                table.Add(CreateRow(packageRef, lengthofPackage, lengthOfVersion));
+                table.Add(CreateRow(reference, lengthOfName, lengthOfVersion));
             }
 
             return table;
         }
 
-        public string CreateHeader(int lengthOfPackage, int lengthOfVersion)
+        public string CreateHeader(int lengthOfName, int lengthOfVersion)
         {
-            return $"| Package{new string(' ', lengthOfPackage - "Package".Length)} | Version{new string(' ', lengthOfVersion - "Version".Length)} |";
+            return $"| Reference{new string(' ', lengthOfName - "Reference".Length)} | Version{new string(' ', lengthOfVersion - "Version".Length)} |";
         }
 
-        public string CreatePartinLine(int lengthOfPackage, int lengthOfVersion)
+        public string CreatePartingLine(int lengthOfName, int lengthOfVersion)
         {
-            return $"| {new string('-', lengthOfPackage)} | {new string('-', lengthOfVersion)} |";
+            return $"| {new string('-', lengthOfName)} | {new string('-', lengthOfVersion)} |";
         }
 
-        public string CreateRow(PackageRef packageRef, int lengthOfPackage, int lengthOfVersion)
+        public string CreateRow(Reference reference, int lengthOfName, int lengthOfVersion)
         {
-            return $"| {packageRef.Name}{new string(' ', lengthOfPackage - packageRef.Name.Length)} | {packageRef.Version}{new string(' ', lengthOfVersion - packageRef.Version.Length)} |";
+            return $"| {reference.Name}{new string(' ', lengthOfName - reference.Name.Length)} | {reference.Version}{new string(' ', lengthOfVersion - reference.Version.Length)} |";
         }
 
-        public int GetLongestPackageLength(List<PackageRef> packageRefs)
+        public int GetLongestNameLength(List<Reference> references)
         {
-            return Math.Max(packageRefs.Max(x => x.Name.Length), "Package".Length);
+            return Math.Max(references.Max(x => x.Name.Length), "Reference".Length);
         }
 
-        public int GetLongestVersionLength(List<PackageRef> packageRefs)
+        public int GetLongestVersionLength(List<Reference> references)
         {
-            return Math.Max(packageRefs.Max(x => x.Version.Length), "Version".Length);
+            return Math.Max(references.Max(x => x.Version.Length), "Version".Length);
         }
 
         public void PrintTables(List<List<string>> tables, List<string> projectNames)
@@ -89,9 +87,9 @@ namespace NewPackageRefToMDTableConverter
 
         public void PrintTable(List<string> table)
         {
-            foreach (var item in table)
+            foreach (var row in table)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(row);
             }
         }
     }

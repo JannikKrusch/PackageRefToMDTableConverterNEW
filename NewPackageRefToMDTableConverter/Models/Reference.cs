@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NewPackageRefToMDTableConverter
+namespace NewPackageRefToMDTableConverter.Models
 {
-    public class PackageRef
+    public class Reference
     {
         public string Name { get; set; }
         public string Version { get; set; }
