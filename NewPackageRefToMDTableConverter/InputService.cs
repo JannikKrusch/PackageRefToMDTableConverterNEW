@@ -21,19 +21,6 @@
 
         public void SetPath()
         {
-            //Console.Write("Input path: ");
-            //var input = Console.ReadLine();
-
-            //if (string.IsNullOrWhiteSpace(input) || !Directory.Exists(input))
-            //{
-            //    Path = "";
-            //    _logger.LogWarning("Input is invalid. Empty / White space or directory doesn't exist");
-            //}
-            //else
-            //{
-            //    Path = input;
-            //}
-
             while (true)
             {
                 Console.Write("Input path: ");
@@ -58,7 +45,6 @@
 
                 if (!string.IsNullOrWhiteSpace(input) && (input.ToLower() == "y" || input.ToLower() == "n"))
                 {
-                    //Separate = input.ToLower() == "y" ? true : false;
                     return input.ToLower() == "y" ? true : false;
                 }
 
