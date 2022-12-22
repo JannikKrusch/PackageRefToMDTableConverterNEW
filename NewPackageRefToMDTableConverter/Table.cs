@@ -1,4 +1,5 @@
-﻿using NewPackageRefToMDTableConverter.Models;
+﻿using NewPackageRefToMDTableConverter.Consts;
+using NewPackageRefToMDTableConverter.Models;
 
 namespace NewPackageRefToMDTableConverter
 {
@@ -34,10 +35,10 @@ namespace NewPackageRefToMDTableConverter
             {
                 //packages
                 var packageReferences = references.Where(reference => reference.Version != "").ToList();
-                var lengthOfName = GetLongestNameLength(packageReferences, "Package");
+                var lengthOfName = GetLongestNameLength(packageReferences, TableConstants.HeaderLeftPackage); //Package
                 var lengthOfVersion = GetLongestVersionLength(packageReferences);
 
-                table.Add(CreateHeader("Package", "Version", lengthOfName, lengthOfVersion));
+                table.Add(CreateHeader(TableConstants.HeaderLeftPackage, TableConstants.HeaderRight, lengthOfName, lengthOfVersion));
                 table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
 
                 foreach (var packageReference in packageReferences)
@@ -51,10 +52,10 @@ namespace NewPackageRefToMDTableConverter
                 var projectReferences = references.Where(reference => reference.Version == "").ToList();
                 if (projectReferences.Any())
                 {
-                    lengthOfName = GetLongestNameLength(projectReferences, "Project");
+                    lengthOfName = GetLongestNameLength(projectReferences, TableConstants.HeaderLeftProject);
                     lengthOfVersion = GetLongestVersionLength(projectReferences);
 
-                    table.Add(CreateHeader("Project", "Version", lengthOfName, lengthOfVersion));
+                    table.Add(CreateHeader(TableConstants.HeaderLeftProject, TableConstants.HeaderRight, lengthOfName, lengthOfVersion));
                     table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
 
                     foreach (var projectReference in projectReferences)
@@ -65,10 +66,10 @@ namespace NewPackageRefToMDTableConverter
             }
             else
             {
-                var lengthOfName = GetLongestNameLength(references, "Reference");
+                var lengthOfName = GetLongestNameLength(references, TableConstants.HeaderLefReference);
                 var lengthOfVersion = GetLongestVersionLength(references);
 
-                table.Add(CreateHeader("Reference", "Version", lengthOfName, lengthOfVersion));
+                table.Add(CreateHeader(TableConstants.HeaderLefReference, TableConstants.HeaderRight, lengthOfName, lengthOfVersion));
                 table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
 
                 foreach (var reference in references)
@@ -95,14 +96,14 @@ namespace NewPackageRefToMDTableConverter
             return $"| {reference.Name}{new string(' ', lengthOfName - reference.Name.Length)} | {reference.Version}{new string(' ', lengthOfVersion - reference.Version.Length)} |";
         }
 
-        public int GetLongestNameLength(List<Reference> references, string header)//todo string.length anpassen an sep ja/nein
+        public int GetLongestNameLength(List<Reference> references, string header)
         {
             return Math.Max(references.Max(x => x.Name.Length), header.Length);
         }
 
         public int GetLongestVersionLength(List<Reference> references)
         {
-            return Math.Max(references.Max(x => x.Version.Length), "Version".Length);
+            return Math.Max(references.Max(x => x.Version.Length), TableConstants.HeaderRight.Length);
         }
 
         public void PrintTables(List<List<string>> tables, List<string> projectNames)

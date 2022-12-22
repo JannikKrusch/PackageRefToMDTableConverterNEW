@@ -14,6 +14,6 @@ var converter = new Converter(logger);
 converter.StartConverting(inputService.Path, inputService.Separate);
 
 //todo
-//  * ask if user wants logs
-//  * create constant folder and create table header constants
+//  * ask if user wants logs x
+//  * create constant folder and create table header constants x
 //  * refactor code

@@ -15,7 +15,7 @@
         public void SetUserInput()
         {
             SetPath();
-            Separate = GetTrueOrFalse("Separate package and project references into different tables [Y/N]? ");
+            Separate = GetTrueOrFalse("Separate package and project references [Y/N]? ");
             Log = GetTrueOrFalse("Show log messages[Y/N]? ");
         }
 
@@ -23,7 +23,7 @@
         {
             while (true)
             {
-                Console.Write("Input path: ");
+                Console.Write("Path: ");
                 var input = Console.ReadLine();
 
                 if (!string.IsNullOrWhiteSpace(input) && Directory.Exists(input))
@@ -45,7 +45,7 @@
 
                 if (!string.IsNullOrWhiteSpace(input) && (input.ToLower() == "y" || input.ToLower() == "n"))
                 {
-                    return input.ToLower() == "y" ? true : false;
+                    return input.ToLower() == "y";
                 }
 
                 _logger.LogWarning($"Invalid input. Must be [Y/N]");
