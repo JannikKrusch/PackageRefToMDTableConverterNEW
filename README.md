@@ -14,6 +14,7 @@ It's a neat little tool to convert package & project references to .md tables.
 1. Input path to your solution where your projects are e.g C:\Users\User\Your project folder\src.
 2. Type Y/y or N/n whether you want to separet package and project references into different tables.
 3. Type Y/y or N/n whether you want to see log messages.
+4. Program starts to convert and print tables.
 
 # General
 
