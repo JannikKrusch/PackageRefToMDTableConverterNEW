@@ -4,17 +4,17 @@
 It's a neat little tool to convert package & project references to .md tables.
 
 # Getting Started
->To test the solution "NewPackageRefToMDTableConverter", the project "NewPackageRefToMDTableConverter" must be marked as start project. Then start in DEBUG mode
+> To test the solution "NewPackageRefToMDTableConverter", the project "NewPackageRefToMDTableConverter" must be marked as start project. Then start in DEBUG mode
 1.	Download Repository
 2.	Open Repository
 3.	Mark  "NewPackageRefToMDTableConverter" as startproject
 4.	Start "NewPackageRefToMDTableConverter" in DEBUG mode
 
 ## Steps
-1. Input path to your solution where your projects are e.g C:\Users\User\Your project folder\src.
-2. Type Y/y or N/n whether you want to separet package and project references into different tables.
-3. Type Y/y or N/n whether you want to see log messages.
-4. Program starts to convert and print tables.
+1.  Input path to your solution where your projects are e.g C:\Users\User\Your project folder\src.
+2.  Type Y/y or N/n whether you want to separate package and project references into different tables.
+3.  Type Y/y or N/n whether you want to see log messages.
+4.  Program starts to convert and print tables.
 
 # General
 
