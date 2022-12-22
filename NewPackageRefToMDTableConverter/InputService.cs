@@ -3,6 +3,8 @@
     public class InputService
     {
         public string Path { get; set; }
+        public bool Separate { get; set; }
+        public bool Log { get; set; }
         private Logger _logger;
 
         public InputService(Logger logger)
@@ -10,19 +12,43 @@
             _logger = logger;
         }
 
+        public void SetUserInput()
+        {
+            SetPath();
+            Separate = GetTrueOrFalse("Separate package and project references [Y/N]? ");
+            Log = GetTrueOrFalse("Show log messages[Y/N]? ");
+        }
+
         public void SetPath()
         {
-            Console.Write("Input path: ");
-            var input = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(input) || !Directory.Exists(input))
+            while (true)
             {
-                Path = "";
+                Console.Write("Path: ");
+                var input = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(input) && Directory.Exists(input))
+                {
+                    Path = input;
+                    return;
+                }
+
                 _logger.LogWarning("Input is invalid. Empty / White space or directory doesn't exist");
             }
-            else
+        }
+
+        public bool GetTrueOrFalse(string inputMessage)
+        {
+            while (true)
             {
-                Path = input;
+                Console.Write(inputMessage);
+                var input = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(input) && (input.ToLower() == "y" || input.ToLower() == "n"))
+                {
+                    return input.ToLower() == "y";
+                }
+
+                _logger.LogWarning($"Invalid input. Must be [Y/N]");
             }
         }
     }

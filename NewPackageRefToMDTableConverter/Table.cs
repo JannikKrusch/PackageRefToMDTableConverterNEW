@@ -1,4 +1,5 @@
-﻿using NewPackageRefToMDTableConverter.Models;
+﻿using NewPackageRefToMDTableConverter.Consts;
+using NewPackageRefToMDTableConverter.Models;
 
 namespace NewPackageRefToMDTableConverter
 {
@@ -11,14 +12,14 @@ namespace NewPackageRefToMDTableConverter
             _logger = logger;
         }
 
-        public List<List<string>> CreateTables(List<List<Reference>> referencesList)
+        public List<List<string>> CreateTables(List<List<Reference>> referencesList, bool separate)
         {
             _logger.LogDebug("Started creating tables");
 
             var tables = new List<List<string>>();
             foreach (var references in referencesList)
             {
-                tables.Add(CreateTable(references));
+                tables.Add(CreateTable(references, separate));
             }
 
             _logger.LogDebug("Finished creating tables");
@@ -26,26 +27,63 @@ namespace NewPackageRefToMDTableConverter
             return tables;
         }
 
-        public List<string> CreateTable(List<Reference> references)
+        public List<string> CreateTable(List<Reference> references, bool separate)
         {
             var table = new List<string>();
-            var lengthOfName = GetLongestNameLength(references);
-            var lengthOfVersion = GetLongestVersionLength(references);
 
-            table.Add(CreateHeader(lengthOfName, lengthOfVersion));
-            table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
-
-            foreach (var reference in references)
+            if (separate)
             {
-                table.Add(CreateRow(reference, lengthOfName, lengthOfVersion));
+                //packages
+                var packageReferences = references.Where(reference => reference.Version != "").ToList();
+                var lengthOfName = GetLongestNameLength(packageReferences, TableConstants.HeaderLeftPackage); //Package
+                var lengthOfVersion = GetLongestVersionLength(packageReferences);
+
+                table.Add(CreateHeader(TableConstants.HeaderLeftPackage, TableConstants.HeaderRight, lengthOfName, lengthOfVersion));
+                table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
+
+                foreach (var packageReference in packageReferences)
+                {
+                    table.Add(CreateRow(packageReference, lengthOfName, lengthOfVersion));
+                }
+
+                table.Add(string.Empty);
+
+                //projects
+                var projectReferences = references.Where(reference => reference.Version == "").ToList();
+                if (projectReferences.Any())
+                {
+                    lengthOfName = GetLongestNameLength(projectReferences, TableConstants.HeaderLeftProject);
+                    lengthOfVersion = GetLongestVersionLength(projectReferences);
+
+                    table.Add(CreateHeader(TableConstants.HeaderLeftProject, TableConstants.HeaderRight, lengthOfName, lengthOfVersion));
+                    table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
+
+                    foreach (var projectReference in projectReferences)
+                    {
+                        table.Add(CreateRow(projectReference, lengthOfName, lengthOfVersion));
+                    }
+                }
+            }
+            else
+            {
+                var lengthOfName = GetLongestNameLength(references, TableConstants.HeaderLefReference);
+                var lengthOfVersion = GetLongestVersionLength(references);
+
+                table.Add(CreateHeader(TableConstants.HeaderLefReference, TableConstants.HeaderRight, lengthOfName, lengthOfVersion));
+                table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
+
+                foreach (var reference in references)
+                {
+                    table.Add(CreateRow(reference, lengthOfName, lengthOfVersion));
+                }
             }
 
             return table;
         }
 
-        public string CreateHeader(int lengthOfName, int lengthOfVersion)
+        public string CreateHeader(string headerLeft, string headerRight, int lengthOfName, int lengthOfVersion)
         {
-            return $"| Reference{new string(' ', lengthOfName - "Reference".Length)} | Version{new string(' ', lengthOfVersion - "Version".Length)} |";
+            return $"| {headerLeft}{new string(' ', lengthOfName - headerLeft.Length)} | {headerRight}{new string(' ', lengthOfVersion - headerRight.Length)} |";
         }
 
         public string CreatePartingLine(int lengthOfName, int lengthOfVersion)
@@ -58,14 +96,14 @@ namespace NewPackageRefToMDTableConverter
             return $"| {reference.Name}{new string(' ', lengthOfName - reference.Name.Length)} | {reference.Version}{new string(' ', lengthOfVersion - reference.Version.Length)} |";
         }
 
-        public int GetLongestNameLength(List<Reference> references)
+        public int GetLongestNameLength(List<Reference> references, string header)
         {
-            return Math.Max(references.Max(x => x.Name.Length), "Reference".Length);
+            return Math.Max(references.Max(x => x.Name.Length), header.Length);
         }
 
         public int GetLongestVersionLength(List<Reference> references)
         {
-            return Math.Max(references.Max(x => x.Version.Length), "Version".Length);
+            return Math.Max(references.Max(x => x.Version.Length), TableConstants.HeaderRight.Length);
         }
 
         public void PrintTables(List<List<string>> tables, List<string> projectNames)

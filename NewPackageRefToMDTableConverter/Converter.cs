@@ -15,7 +15,7 @@ namespace NewPackageRefToMDTableConverter
             _projectNames = new List<string>();
         }
 
-        public void StartConverting(string path)
+        public void StartConverting(string path, bool separate)
         {
             var referenceFiles = GetReferenceFiles(path);
             var filteredFiles = new List<List<string>>();
@@ -26,7 +26,7 @@ namespace NewPackageRefToMDTableConverter
             }
 
             var referencesList = ConvertToReferenceList(filteredFiles);
-            var tables = _table.CreateTables(referencesList);
+            var tables = _table.CreateTables(referencesList, separate);
             _table.PrintTables(tables, _projectNames);
         }
 
@@ -80,7 +80,7 @@ namespace NewPackageRefToMDTableConverter
             var referencesList = new List<List<Reference>>();
             foreach (var project in filteredProjectFiles)
             {
-                _logger.LogDebug("Creating PackageReference list");
+                _logger.LogDebug("Creating reference list");
                 var projectReferences = new List<Reference>();
 
                 foreach (var line in project)
@@ -95,20 +95,20 @@ namespace NewPackageRefToMDTableConverter
 
         public Reference ConvertToReference(string line)
         {
-            _logger.LogDebug("Creating PackageReference item");
+            _logger.LogDebug("Creating reference item");
 
             var packageRef = new Reference();
             var splitLine = line.Split(" ");
 
             if (line.StartsWith("<PackageReference Include="))
             {
-                //package mit version
+                //package with version
                 packageRef.Name = splitLine[1].Replace("Include=\"", "").Replace("\"", "");
                 packageRef.Version = splitLine[2].Replace("Version=\"", "").Replace("\"", "");
             }
             else
             {
-                //project ohne version
+                //project without version
                 packageRef.Name = splitLine[1].Replace("Include=\"", "").Replace("\"", "");
                 packageRef.Version = "";
             }
