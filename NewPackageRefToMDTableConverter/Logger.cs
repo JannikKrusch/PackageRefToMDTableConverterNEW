@@ -25,7 +25,7 @@
             {
                 var color = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"DEBUG:\t{message}");
+                Console.WriteLine($"DBUG:\t{message}");
                 Console.ForegroundColor = color;
             }
         }
@@ -36,7 +36,7 @@
             {
                 var color = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"WARNING:\t{message}");
+                Console.WriteLine($"WARN:\t{message}");
                 Console.ForegroundColor = color;
             }
         }
