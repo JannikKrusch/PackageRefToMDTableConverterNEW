@@ -1,14 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
-using NewPackageRefToMDTableConverter;
+﻿using NewPackageRefToMDTableConverter;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine("Package reference converter is starting ... start");
 
 var logger = new Logger();
 var inputService = new InputService(logger);
 var converter = new Converter(logger);
 
 inputService.SetPath();
-if(inputService.Path != "")
+if(!string.IsNullOrEmpty(inputService.Path))
 {
     converter.StartConverting(inputService.Path);
 }

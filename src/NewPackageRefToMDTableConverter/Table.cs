@@ -2,11 +2,11 @@
 
 namespace NewPackageRefToMDTableConverter
 {
-    public class Table
+    public class TableProvider
     {
         private Logger _logger;
 
-        public Table(Logger logger)
+        public TableProvider(Logger logger)
         {
             _logger = logger;
         }
@@ -15,11 +15,9 @@ namespace NewPackageRefToMDTableConverter
         {
             _logger.LogDebug("Started creating tables");
 
-            var tables = new List<List<string>>();
-            foreach (var references in referencesList)
-            {
-                tables.Add(CreateTable(references));
-            }
+            var tables = referencesList
+                .Select(r => CreateTable(r))
+                .ToList();
 
             _logger.LogDebug("Finished creating tables");
 
@@ -28,44 +26,9 @@ namespace NewPackageRefToMDTableConverter
 
         public List<string> CreateTable(List<Reference> references)
         {
-            var table = new List<string>();
-            var lengthOfName = GetLongestNameLength(references);
-            var lengthOfVersion = GetLongestVersionLength(references);
+            var table = TableFactory.Create(references);
 
-            table.Add(CreateHeader(lengthOfName, lengthOfVersion));
-            table.Add(CreatePartingLine(lengthOfName, lengthOfVersion));
-
-            foreach (var reference in references)
-            {
-                table.Add(CreateRow(reference, lengthOfName, lengthOfVersion));
-            }
-
-            return table;
-        }
-
-        public string CreateHeader(int lengthOfName, int lengthOfVersion)
-        {
-            return $"| Reference{new string(' ', lengthOfName - "Reference".Length)} | Version{new string(' ', lengthOfVersion - "Version".Length)} |";
-        }
-
-        public string CreatePartingLine(int lengthOfName, int lengthOfVersion)
-        {
-            return $"| {new string('-', lengthOfName)} | {new string('-', lengthOfVersion)} |";
-        }
-
-        public string CreateRow(Reference reference, int lengthOfName, int lengthOfVersion)
-        {
-            return $"| {reference.Name}{new string(' ', lengthOfName - reference.Name.Length)} | {reference.Version}{new string(' ', lengthOfVersion - reference.Version.Length)} |";
-        }
-
-        public int GetLongestNameLength(List<Reference> references)
-        {
-            return Math.Max(references.Max(x => x.Name.Length), "Reference".Length);
-        }
-
-        public int GetLongestVersionLength(List<Reference> references)
-        {
-            return Math.Max(references.Max(x => x.Version.Length), "Version".Length);
+            return table.Lines;
         }
 
         public void PrintTables(List<List<string>> tables, List<string> projectNames)

@@ -4,14 +4,16 @@ namespace NewPackageRefToMDTableConverter
 {
     public class Converter
     {
-        private Logger _logger;
-        private Table _table;
-        private List<string> _projectNames;
+        private readonly Logger _logger;
+
+        private readonly TableProvider _tableProvider;
+
+        private readonly List<string> _projectNames;
 
         public Converter(Logger logger)
         {
             _logger = logger;
-            _table = new Table(logger);
+            _tableProvider = new TableProvider(logger);
             _projectNames = new List<string>();
         }
 
@@ -26,8 +28,8 @@ namespace NewPackageRefToMDTableConverter
             }
 
             var referencesList = ConvertToReferenceList(filteredFiles);
-            var tables = _table.CreateTables(referencesList);
-            _table.PrintTables(tables, _projectNames);
+            var tables = _tableProvider.CreateTables(referencesList);
+            _tableProvider.PrintTables(tables, _projectNames);
         }
 
         public List<List<string>> GetReferenceFiles(string path)

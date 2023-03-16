@@ -2,7 +2,8 @@
 {
     public class InputService
     {
-        public string Path { get; set; }
+        public string? Path { get; set; }
+
         private Logger _logger;
 
         public InputService(Logger logger)
@@ -19,11 +20,10 @@
             {
                 Path = "";
                 _logger.LogWarning("Input is invalid. Empty / White space or directory doesn't exist");
+                return;
             }
-            else
-            {
-                Path = input;
-            }
+
+            Path = input;
         }
     }
 }
