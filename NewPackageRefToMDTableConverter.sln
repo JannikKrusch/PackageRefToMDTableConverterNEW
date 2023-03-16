@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPackageRefToMDTableConverter", "NewPackageRefToMDTableConverter\NewPackageRefToMDTableConverter.csproj", "{D8A8A337-D633-4189-9F4C-0DE17EA214F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPackageRefToMDTableConverter", "src\NewPackageRefToMDTableConverter\NewPackageRefToMDTableConverter.csproj", "{D8A8A337-D633-4189-9F4C-0DE17EA214F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
