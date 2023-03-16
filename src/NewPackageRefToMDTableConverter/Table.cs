@@ -27,7 +27,7 @@ namespace NewPackageRefToMDTableConverter
         public List<string> CreateTable(List<Reference> references)
         {
             var table = TableFactory.Create(references);
-            
+
             return table.Lines;
         }
 
